@@ -7,9 +7,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class LocalFs implements PollableFs {
-
     @Override
-    public List<FileEntry> listFiles(String location) {
+    public List<FileEntry> listEntries(String location) {
         List<FileEntry> entries = new ArrayList<>();
         File folder = new File(location);
 
