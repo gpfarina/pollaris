@@ -1,5 +1,6 @@
 package com.pollaris.fs;
 
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -8,12 +9,12 @@ import software.amazon.awssdk.services.s3.model.ListObjectsV2Request;
 import software.amazon.awssdk.services.s3.model.ListObjectsV2Response;
 import software.amazon.awssdk.services.s3.model.S3Object;
 
-public class S3PollableFs implements PollableFs{
+public class S3Fs implements PollableFs{
 
     private final S3Client s3Client;
     private final String bucket;
 
-    public S3PollableFs(S3Client s3Client, String bucket) {
+    public S3Fs(S3Client s3Client, String bucket) {
         this.s3Client = s3Client;
         this.bucket = bucket;
     }
@@ -39,7 +40,7 @@ public class S3PollableFs implements PollableFs{
 
             for (S3Object obj : response.contents()) {
                 entries.add(new FileEntry(
-                    obj.key(),
+                    Paths.get(obj.key()),
                     obj.lastModified(),
                     obj.size()
                 ));

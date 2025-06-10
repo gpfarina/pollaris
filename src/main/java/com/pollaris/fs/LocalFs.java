@@ -2,6 +2,7 @@ package com.pollaris.fs;
 
 import java.io.File;
 import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.util.ArrayList;
 import java.util.List;
@@ -25,7 +26,7 @@ public class LocalFs implements PollableFs {
                 try {
                     BasicFileAttributes attrs = Files.readAttributes(file.toPath(), BasicFileAttributes.class);
                     entries.add(new FileEntry(
-                            file.getAbsolutePath(),
+                            Paths.get(file.getAbsolutePath()),
                             attrs.lastModifiedTime().toInstant(),
                             attrs.size()
                     ));
