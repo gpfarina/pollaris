@@ -52,5 +52,11 @@ public class S3Fs implements PollableFs{
 
         return entries;
     }
+
+    @Override
+    public FileEntry listEntry(String location) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'listEntry'");
+    }
     
 }

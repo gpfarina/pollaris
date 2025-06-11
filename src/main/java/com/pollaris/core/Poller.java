@@ -4,5 +4,5 @@ import java.util.List;
 
 public interface Poller {
     List<Event> poll(); 
-    long getId();
+    PollerId getId();
 }

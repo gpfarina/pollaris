@@ -3,5 +3,8 @@ package com.pollaris.fs;
 import java.util.List;
 
 public interface PollableFs {
-    List<FileEntry> listEntries(String location);  // Lists files in a folder or prefix
+    // Can list files in a directory or prefix.
+    List<FileEntry> listEntries(String locationToEvents);
+    // Can list a single file
+    FileEntry listEntry(String locationToEvent);
 }
