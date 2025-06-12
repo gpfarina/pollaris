@@ -1,4 +1,4 @@
-package com.pollaris.main;
+package com.pollaris.config;
 public class BackendConfigEntry {
     public BackendType type;
     public String prefix; // for S3, null otherwise

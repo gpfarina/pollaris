@@ -1,0 +1,23 @@
+pollers:
+  - name: "localPoller"
+    frequencyMs: 5000
+    backend:
+      type: LOCAL
+    actions:
+        "/data/input/location1": LOGEVENT
+        "/data/input/location2": "LOGEVENT"
+  - name: "localPoller2"
+    frequencyMs: 1000
+    backend:
+      type: LOCAL
+    actions:
+        "/data/input/location3": LOGEVENT2
+        "/data/input/location4": "LOGEVENT"
+  - name: "awsPoller"
+    frequencyMs: 7000
+    backend:
+      type: AWS
+      prefix: "s3"
+      bucket: "bucket"
+    actions:
+      "/data/locationS3": "LogEvent"

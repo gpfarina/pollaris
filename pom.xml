@@ -40,5 +40,12 @@
         <version>5.10.0</version> <!-- Use the latest version available -->
         <scope>test</scope>
     </dependency>
+        <dependency>
+      <groupId>org.jetbrains</groupId>
+      <artifactId>annotations</artifactId>
+      <version>23.0.0</version>
+    </dependency>
+    
+
   </dependencies>
 </project>

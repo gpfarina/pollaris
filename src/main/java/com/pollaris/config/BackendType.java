@@ -1,4 +1,4 @@
-package com.pollaris.main;
+package com.pollaris.config;
 
 public enum BackendType {
     LOCAL,

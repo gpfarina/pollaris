@@ -40,5 +40,19 @@ public class TestLocalPollableFs {
         Files.deleteIfExists(tempDir.resolve("location1"));
         Files.deleteIfExists(tempDir.resolve("location2"));
     }
+
+    // Test that listing single locations work
+    @Test
+    public void testSingleLocations() throws IOException{
+        PollableFs localPollableFs = new LocalFs(); 
+        Files.createFile(tempDir.resolve("location1"));
+        Files.createFile(tempDir.resolve("location2"));
+        FileEntry entry1 = localPollableFs.listEntry(tempDir.toString()+"/location1");
+        FileEntry entry2 = localPollableFs.listEntry(tempDir.toString()+"/location2");
+        assertNotNull(entry1);
+        assertNotNull(entry2);
+        Files.deleteIfExists(tempDir.resolve("location1"));
+        Files.deleteIfExists(tempDir.resolve("location2"));
+    }
     
 }

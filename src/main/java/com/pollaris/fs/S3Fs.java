@@ -42,7 +42,7 @@ public class S3Fs implements PollableFs{
                 entries.add(new FileEntry(
                     Paths.get(obj.key()),
                     obj.lastModified(),
-                    obj.size()
+                    null
                 ));
             }
 

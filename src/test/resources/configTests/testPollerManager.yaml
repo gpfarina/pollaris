@@ -1,0 +1,7 @@
+pollers:
+  - name: "localPoller"
+    frequencyMs: 5000
+    backend:
+      type: LOCAL
+    actions:
+        "/home/gian-pietro/pollaris/data/test": LOGEVENT

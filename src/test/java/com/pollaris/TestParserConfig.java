@@ -8,10 +8,10 @@ import java.util.stream.Collectors;
 
 import org.junit.jupiter.api.Test;
 
-import com.pollaris.main.Config;
-public class ParserConfig {
+import com.pollaris.config.Config;
+public class TestParserConfig {
     
-
+    // test parsing of config files
     @Test
     public void parseTestFiles() throws Exception{
         URL resourceUrl = getClass().getResource("/configTests");
