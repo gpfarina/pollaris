@@ -7,12 +7,9 @@ import java.nio.file.attribute.BasicFileAttributes;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-
 public class LocalFs implements PollableFs {
     @Override
-    public List<FileEntry> listEntries(@NotNull String location) {
+    public List<FileEntry> listEntries(String location) {
         List<FileEntry> entries = new ArrayList<>();
         File folder = new File(location);
 
@@ -43,7 +40,7 @@ public class LocalFs implements PollableFs {
     }
 
     @Override
-    public @Nullable FileEntry listEntry(@NotNull String location){
+    public FileEntry listEntry(String location){
         File file = new File(location);
         FileEntry entry=null;
         if(file.exists() && !file.isDirectory()) {

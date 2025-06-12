@@ -6,9 +6,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import org.jetbrains.annotations.Nullable;
-
 import com.pollaris.event.Event;
 import com.pollaris.fs.FileEntry;
 import com.pollaris.fs.PollableFs;
@@ -62,7 +59,7 @@ public class MultipleLocationsPoller implements Poller {
         return this.locations;
     }
     
-    private @Nullable Event singleLocationPoll(Path pathToSingleLocation) {
+    private Event singleLocationPoll(Path pathToSingleLocation) {
         final FileEntry entry = this.pollableFs.listEntry(pathToSingleLocation.toString());
         Instant lastRecordedTime = this.latestEvents.getOrDefault(pathToSingleLocation, Instant.ofEpochMilli(0));
         if(entry!=null && entry.instant().isAfter(lastRecordedTime)){

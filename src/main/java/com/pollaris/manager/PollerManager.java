@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
-import org.jetbrains.annotations.NotNull;
+
 
 import com.pollaris.action.Action;
 import com.pollaris.action.LogAction;
@@ -35,7 +35,7 @@ public class PollerManager {
     private final Map<PollerId, Map<Path, Action>> pollerIdToLocationsWithAction;
 
 
-    public PollerManager(@NotNull Config configuration, @NotNull Scheduler scheduler){
+    public PollerManager(Config configuration,Scheduler scheduler){
         this.scheduler=scheduler;
         pollerIdToPollerWithFrequency = new HashMap<>();
         pollerIdToLocationsWithAction = new HashMap<>();
