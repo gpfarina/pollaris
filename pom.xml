@@ -45,7 +45,22 @@
       <artifactId>annotations</artifactId>
       <version>23.0.0</version>
     </dependency>
-    
+    <dependency>
+  <groupId>com.adobe.testing</groupId>
+  <artifactId>s3mock-junit5</artifactId>
+  <version>2.14.0</version>
+  <scope>test</scope>
+</dependency>
+
+<dependency>
+  <groupId>software.amazon.awssdk</groupId>
+  <artifactId>s3</artifactId>
+  <version>2.25.20</version>
+</dependency>
 
   </dependencies>
+  <properties>
+  <maven.compiler.source>21</maven.compiler.source>
+  <maven.compiler.target>21</maven.compiler.target>
+</properties>
 </project>

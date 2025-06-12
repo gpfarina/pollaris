@@ -4,4 +4,10 @@ pollers:
     backend:
       type: LOCAL
     actions:
-        "/home/gian-pietro/pollaris/data/test": LOGEVENT
+        "/home/gian-pietro/pollaris/data/test1": LOGEVENT
+  - name: "localPoller2"
+    frequencyMs: 5000
+    backend:
+      type: LOCAL
+    actions:
+        "/home/gian-pietro/pollaris/data/test2": LOGEVENT

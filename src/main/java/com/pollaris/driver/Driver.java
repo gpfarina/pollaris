@@ -5,6 +5,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 
 import com.pollaris.config.Config;
+import com.pollaris.manager.MultiThreadedPollerManager;
 import com.pollaris.manager.PollerManager;
 import com.pollaris.scheduling.RealScheduler;
 
@@ -24,7 +25,7 @@ public class Driver {
             System.exit(-1);
         }
         Config configuration=Config.parse(new File(configFilePath.toString()));
-        PollerManager manager=new PollerManager(configuration,new RealScheduler(configuration.getPollers().size()));
+        PollerManager manager=new MultiThreadedPollerManager(configuration,new RealScheduler(configuration.getPollers().size()));
         manager.startPollers();
     }
 }
