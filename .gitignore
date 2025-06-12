@@ -1,3 +1,4 @@
+target/classes/com/pollaris/driver/*.yaml
 .vscode/
 # Compiled class file
 *.class
