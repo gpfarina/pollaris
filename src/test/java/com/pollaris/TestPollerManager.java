@@ -19,6 +19,4 @@ public class TestPollerManager {
         PollerManager manager = new PollerManager(config, new ImmediateScheduler());
         manager.startPollers();
     }
-
-
 }
