@@ -10,6 +10,7 @@ import org.junit.jupiter.api.Test;
 import com.pollaris.config.Config;
 import com.pollaris.manager.MultiThreadedPollerManager;
 import com.pollaris.manager.PollerManager;
+import com.pollaris.poller.PollerFactory;
 
 public class TestMultiThreadedPollerManager {
     @Test
@@ -17,7 +18,7 @@ public class TestMultiThreadedPollerManager {
         URL resourceUrl = getClass().getResource("/configTests/testPollerManager.yaml");
         Path resourcePath = Path.of(resourceUrl.toURI());
         Config config = Config.parse(new File(resourcePath.toString()));
-        PollerManager manager = new MultiThreadedPollerManager(config, new ImmediateScheduler());
+        PollerManager manager = new MultiThreadedPollerManager(config, new ImmediateScheduler(), new PollerFactory());
         manager.startPollers();
     }
 }

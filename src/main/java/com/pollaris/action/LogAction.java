@@ -3,7 +3,6 @@ package com.pollaris.action;
 import org.jetbrains.annotations.NotNull;
 
 import com.pollaris.event.Event;
-import com.pollaris.fs.Result;
 /*
 * A concrete implementation of the Action interface. This action only logs the event occurence.
 */

@@ -6,8 +6,8 @@ import java.util.List;
 import com.pollaris.event.Event;
 /**
  * A generic interface for pollers. 
- * Besides adders/getters method the only important method this interfaces defines is
- * the poll() method. A poller's essence is to poll.
+ * Besides adders/getters method the only important method this interface defines is
+ * the poll() method: a poller's essence is to poll.
  */
 public interface Poller {
     List<Event> poll(); 

@@ -12,13 +12,22 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 
+
+/**
+ * A class to handle the parsing of yaml configuration files.
+ */
 public class Config {
     List<PollerConfigEntry> pollers;
     public List<PollerConfigEntry> getPollers() {
         return pollers;
     }
-
-    public static Config parse(File yamlFile) throws Exception{
+    /**
+     * 
+     * @param yamlFile The File instance of the configuration file
+     * @return a Config instance containing the information read from the file
+     * @throws IOException
+     */
+    public static Config parse(File yamlFile) throws IOException { // readValue can throw, we don't catch it for now.
         SimpleModule module = new SimpleModule();
         module.addKeyDeserializer(Path.class, new PathKeyDeserializer());
         ObjectMapper mapper = new ObjectMapper(new YAMLFactory());
@@ -27,9 +36,10 @@ public class Config {
     }
 
 }
+// Special local class to deseriazialize Path objects
 class PathKeyDeserializer extends KeyDeserializer {
     @Override
-    public Object deserializeKey(String key, DeserializationContext ctxt) throws IOException {
+    public Object deserializeKey(String key, DeserializationContext ctxt){
         return Paths.get(key);
     }
 }

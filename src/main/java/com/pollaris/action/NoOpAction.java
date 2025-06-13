@@ -1,7 +1,6 @@
 package com.pollaris.action;
 
 import com.pollaris.event.Event;
-import com.pollaris.fs.Result;
 /*
 * A concrete implementation of the Action interface. This action does nothing, succesfully.
 */

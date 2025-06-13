@@ -1,20 +1,18 @@
 package com.pollaris.fs;
 
 import java.nio.file.Path;
-import java.nio.file.attribute.BasicFileAttributes;
-import java.time.Instant;
 
+
+/*
+ * A class to store information about files that a pollable file system (local or aws) can return
+ */
 public class FileEntry {
     private final Path path;
-    private final Instant modifiedTime;
-    private final BasicFileAttributes attrs;
-    public FileEntry(final Path path, final Instant modifiedTime, BasicFileAttributes attrs){
+    private final FileMetaData metadata;
+    public FileEntry(final Path path, final FileMetaData metadata){
         this.path=path;
-        this.modifiedTime=modifiedTime;
-        this.attrs=attrs;
+        this.metadata=metadata;
     }
     public Path path(){return path;}
-    public Instant instant(){return modifiedTime;}
-    public BasicFileAttributes attrs(){return attrs;}
-
+    public FileMetaData metadata(){return metadata;}
 }

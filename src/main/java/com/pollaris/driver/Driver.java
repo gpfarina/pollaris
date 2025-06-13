@@ -7,8 +7,12 @@ import java.nio.file.Paths;
 import com.pollaris.config.Config;
 import com.pollaris.manager.MultiThreadedPollerManager;
 import com.pollaris.manager.PollerManager;
+import com.pollaris.poller.PollerFactory;
 import com.pollaris.scheduling.RealScheduler;
-
+/**
+ * This class is only for showing purposes. 
+ * 
+ */
 public class Driver {
     public static void main(String args[]) throws Exception{
         Path configFilePath=null;
@@ -25,7 +29,7 @@ public class Driver {
             System.exit(-1);
         }
         Config configuration=Config.parse(new File(configFilePath.toString()));
-        PollerManager manager=new MultiThreadedPollerManager(configuration,new RealScheduler(configuration.getPollers().size()));
+        PollerManager manager=new MultiThreadedPollerManager(configuration,new RealScheduler(configuration.getPollers().size()), new PollerFactory());
         manager.startPollers();
     }
 }

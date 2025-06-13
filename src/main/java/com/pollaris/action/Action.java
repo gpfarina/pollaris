@@ -2,7 +2,6 @@ package com.pollaris.action;
 import org.jetbrains.annotations.NotNull;
 
 import com.pollaris.event.Event;
-import com.pollaris.fs.Result;
 /**
  * Generic interface for Actions.
  */
