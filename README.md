@@ -27,6 +27,10 @@ git clone https://github.com/gpfarina/pollaris.git
 cd pollaris
 mvn clean install
 ```
+# Run tests
+```
+mvn test
+```
 # Running
  ## Configure your config.yaml with poller settings
  * find an example in  src/main/java/com/pollaris/driver/configuration.yaml
