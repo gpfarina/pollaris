@@ -1,5 +1,4 @@
 package com.pollaris.action;
-import org.jetbrains.annotations.NotNull;
 
 import com.pollaris.event.Event;
 /**
@@ -11,5 +10,5 @@ public interface Action {
     // as the actions are defined in the config file and do not depend
     // on the event, only on its occurence
     // For testing reasons we could acutally use the event though
-    public Result execute(@NotNull Event e);
+    public Result execute(Event e);
 }
