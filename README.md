@@ -16,16 +16,13 @@ Pollaris
 # Prerequisites
 * Java 11 or higher
 * Maven 3+
-* AWS credentials with permissions to access the configured S3 buckets. Credentials should be exported as environment variable in the terminal where pollaris is executed. The variables needed are:
-    * AWS_ACCESS_KEY_ID
-    * AWS_SECRET_ACCESS_KEY
-    * AWS_REGION
+* AWS credentials with permissions to access the configured S3 buckets.
 
 # Building
 ```
 git clone https://github.com/gpfarina/pollaris.git
 cd pollaris
-mvn clean install
+mvn clean package
 ```
 # Run tests
 ```
@@ -34,5 +31,11 @@ mvn test
 # Running
  ## Configure your config.yaml with poller settings
  * find an example in  src/main/java/com/pollaris/driver/configuration.yaml
- ## Run the application:
+ ## Configure (if needed) credentials and aws region
+ ```
+    export AWS_REGION=your_region
+    export AWS_ACCESS_KEY_ID=your_key_id
+    export AWS_SECRET_ACCESS_KEY=your_access_key
+ ```
+ ## Run the application (in the same terminal where you exported the environment variables):
  * java -jar target/pollaris.jar path/to/config.yaml
