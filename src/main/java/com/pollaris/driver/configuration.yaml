@@ -5,9 +5,17 @@ pollers:
       type: LOCAL
     actions:
         "/home/gian-pietro/pollaris/data/test1": LOGEVENT
+        "/home/gian-pietro/pollaris/data/test2": LOGEVENT
   - name: "localPoller2"
-    frequencyMs: 5000
+    frequencyMs: 1000
     backend:
       type: LOCAL
     actions:
-        "/home/gian-pietro/pollaris/data/test2": LOGEVENT
+        "/home/gian-pietro/pollaris/data/test3": LOGEVENT
+  - name: "remotePoller"
+    frequencyMs: 7000
+    backend:
+      type: AWS
+      bucket: gpfarinabucket
+    actions:
+        "pollaris/test/testaws": LOGEVENT
