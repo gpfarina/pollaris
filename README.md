@@ -1,6 +1,7 @@
 # Pollaris
 A modular, extensible file system polling service with pluggable backends (Local FS, AWS S3) and configurable actions based on file locations. Designed for easy integration, flexible polling intervals, and customizable event-driven workflows.
-Pollaris
+Pollaris.
+Design document: https://docs.google.com/document/d/1CVXrjrRj9yyqrlqhRUZMfQUJGySyhPDe4K8WQR_v7Hg/edit?usp=sharing
 
 # Features
  * Supports local filesystem and Amazon S3 backends
