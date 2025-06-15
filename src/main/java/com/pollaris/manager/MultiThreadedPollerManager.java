@@ -42,7 +42,7 @@ public class MultiThreadedPollerManager implements PollerManager {
     private final Map<PollerId, Pair<Poller, Integer>> pollerIdToPollerWithFrequency; // Needed to quickly retrieve the frequency of every poller
     private final Map<PollerId, Map<Path, Action>> pollerIdToLocationsWithAction; // Needed to quickly retrieve the the actions for every poller
     private final Map<PollerId, ScheduledFuture> futures; // we use to store handles to the threads
-    private final Map<PollerId, Status> statusPollers;
+    private final Map<PollerId, PollerStatus> statusPollers;
 
     public MultiThreadedPollerManager(Config configuration, Scheduler scheduler, PollerFactory pollerFactory){
         this.scheduler=scheduler;
@@ -54,11 +54,9 @@ public class MultiThreadedPollerManager implements PollerManager {
             List<Path> locations = new ArrayList<>();
             locations.addAll(pollerEntry.actions.keySet());
             PollableFs fs = mkPollableFsFromConfig(pollerEntry.backend);
-            int id = IdGen.getInstance().getCount();
-            IdGen.getInstance().increment(); // important to increment after we assigned the id.
-            PollerId pollerId = PollerId.mkOfInteger(id);
-            statusPollers.put(pollerId, Status.REGISTERED);
-            Poller poller = pollerFactory.create(fs, locations, pollerId); 
+            Poller poller = pollerFactory.create(fs, locations); 
+            PollerId pollerId = poller.getId();
+            statusPollers.put(pollerId, PollerStatus.REGISTERED);
             
             new MultipleLocationsPoller(fs, locations, pollerId); // this needs to be injected, (use maybe a factory?)
             pollerIdToPollerWithFrequency.put(pollerId, new Pair<Poller,Integer>(poller, pollerEntry.frequencyMs));
@@ -66,6 +64,27 @@ public class MultiThreadedPollerManager implements PollerManager {
         }
     }
 
+    /**
+     * Return the status of the pollers.
+     */
+    @Override
+    public List<Pair<Poller, PollerStatus>> status(){
+        List<Pair<Poller, PollerStatus>> returnList = new ArrayList<>();
+        for (Map.Entry<PollerId, PollerStatus> entry : statusPollers.entrySet()) {
+            returnList.add(new Pair<Poller,PollerStatus>(pollerIdToPollerWithFrequency.get(entry.getKey()).getFirst(), entry.getValue()));
+        }
+        return returnList;
+    }
+    
+
+    /**
+     * Return the list of pollers.
+     */
+    @Override
+    public List<Poller> pollers(){
+        return pollerIdToPollerWithFrequency.values().stream().map(Pair::getFirst).toList();
+    }
+    
     /**
      * Initialize the pollers.
      */
@@ -79,7 +98,7 @@ public class MultiThreadedPollerManager implements PollerManager {
             entryPoller.getValue().getSecond(), 
             TimeUnit.MILLISECONDS
             );
-            statusPollers.put(entryPoller.getKey(), Status.STARTED);
+            statusPollers.put(entryPoller.getKey(), PollerStatus.STARTED);
             futures.put(entryPoller.getKey(), handle);
         }
     }
@@ -88,15 +107,15 @@ public class MultiThreadedPollerManager implements PollerManager {
     public void killPollers() {
         for (Map.Entry<PollerId, ScheduledFuture> entry : this.futures.entrySet()) {
             entry.getValue().cancel(true); // gracelessly kills the thread
-            statusPollers.put(entry.getKey(), Status.REGISTERED);
+            statusPollers.put(entry.getKey(), PollerStatus.REGISTERED);
         }
     }
 
     @Override
     public void startPoller(PollerId id){
-        Status status = statusPollers.get(id);
+        PollerStatus status = statusPollers.get(id);
         Pair<Poller, Integer> pollerAndFreq = pollerIdToPollerWithFrequency.get(id);
-        if(status == Status.REGISTERED && pollerAndFreq!=null){
+        if(status == PollerStatus.REGISTERED && pollerAndFreq!=null){
             Runnable execPoller = mkLambdaRunnableWrapper(pollerAndFreq.getFirst());
             ScheduledFuture handle = scheduler.scheduleAtFixedRate(
             execPoller, 
@@ -105,7 +124,7 @@ public class MultiThreadedPollerManager implements PollerManager {
             TimeUnit.MILLISECONDS
             );
             futures.put(id, handle);
-            statusPollers.put(id, Status.STARTED);
+            statusPollers.put(id, PollerStatus.STARTED);
         }
         else{
             System.err.println("Attempt to start a non existent poller.");
@@ -115,11 +134,11 @@ public class MultiThreadedPollerManager implements PollerManager {
 
     @Override
     public void killPoller(PollerId id) {
-        Status status = statusPollers.get(id);
+        PollerStatus status = statusPollers.get(id);
         ScheduledFuture future = futures.get(id);
-        if(status==Status.STARTED && future!=null){
+        if(status==PollerStatus.STARTED && future!=null){
             futures.get(id).cancel(true);
-            statusPollers.put(id, Status.REGISTERED);
+            statusPollers.put(id, PollerStatus.REGISTERED);
         }
         else{
             System.err.println("Attempt to kill a non existent poller.");
@@ -130,7 +149,7 @@ public class MultiThreadedPollerManager implements PollerManager {
     public void registerPoller(Poller poller, Integer frequency, Map<Path, Action> actions) {
         pollerIdToPollerWithFrequency.put(poller.getId(), new Pair<Poller, Integer>(poller, frequency));
         pollerIdToLocationsWithAction.put(poller.getId(), actions);
-        statusPollers.put(poller.getId(), Status.REGISTERED);
+        statusPollers.put(poller.getId(), PollerStatus.REGISTERED);
     }
 
     @Override
@@ -188,10 +207,5 @@ public class MultiThreadedPollerManager implements PollerManager {
             S3Client s3Client = S3Client.builder().build();
             return new S3Fs(s3Client, backend.bucket);
         }
-    }
-
-    private enum Status{
-        REGISTERED,
-        STARTED,
     }
 }

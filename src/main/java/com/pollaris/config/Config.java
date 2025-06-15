@@ -21,6 +21,13 @@ public class Config {
     public List<PollerConfigEntry> getPollers() {
         return pollers;
     }
+    private Config(){}
+    public static Config mkOfEntries(List<PollerConfigEntry> entries){
+        Config config = new Config();
+        config.pollers=entries;
+        return config;
+
+    }
     /**
      * 
      * @param yamlFile The File instance of the configuration file

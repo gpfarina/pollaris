@@ -21,7 +21,7 @@ import com.pollaris.poller.PollerId;
 
 import junit.framework.Assert;
 
-public class TestMultipleLocationPoller {
+public class MultipleLocationPollerTest {
     /*
     * The poll method returns events only when the location has been accessed since the 
     * last time, through the mocked fs.   
@@ -53,11 +53,11 @@ public class TestMultipleLocationPoller {
         List<Path> paths = List.of(path1, path2);
         MockedPollableFs mockedFs = new MockedPollableFs(paths);
         Poller poller = new MultipleLocationsPoller(mockedFs, paths, PollerId.mkOfInteger(IdGen.getInstance().getCount()));
-        Assert.assertEquals(new HashSet<>(poller.locations()), new HashSet(paths));
+        Assert.assertEquals(new HashSet<>(poller.locations()), new HashSet<Path>(paths));
         poller.removeLocation(path1);
-        Assert.assertEquals(new HashSet<>(poller.locations()), new HashSet(List.of(path2)));
+        Assert.assertEquals(new HashSet<>(poller.locations()), new HashSet<Path>(List.of(path2)));
         poller.addLocation(path1);
-        Assert.assertEquals(new HashSet<>(poller.locations()), new HashSet(paths));
+        Assert.assertEquals(new HashSet<>(poller.locations()), new HashSet<Path>(paths));
     }
 
      class MockedPollableFs implements PollableFs{

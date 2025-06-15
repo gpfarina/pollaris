@@ -9,7 +9,7 @@ import java.util.stream.Collectors;
 import org.junit.jupiter.api.Test;
 
 import com.pollaris.config.Config;
-public class TestParserConfig {
+public class ParserConfigTest {
     
     // test parsing of config files
     @Test

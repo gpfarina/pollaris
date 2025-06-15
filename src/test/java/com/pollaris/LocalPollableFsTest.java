@@ -13,7 +13,7 @@ import org.junit.jupiter.api.io.TempDir;
 import com.pollaris.fs.FileEntry;
 import com.pollaris.fs.LocalFs;
 import com.pollaris.fs.PollableFs;
-public class TestLocalPollableFs {
+public class LocalPollableFsTest {
     @TempDir
     Path tempDir;
 

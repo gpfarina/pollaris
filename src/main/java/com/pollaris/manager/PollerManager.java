@@ -1,6 +1,8 @@
 package com.pollaris.manager;
 
+import com.pollaris.utils.Pair;
 import java.nio.file.Path;
+import java.util.List;
 import java.util.Map;
 
 import com.pollaris.action.Action;
@@ -20,4 +22,7 @@ public interface PollerManager {
     public void killPollers();
     public void startPoller(PollerId id);
     public void killPoller(PollerId id);
+    public List<Poller> pollers();
+    public List<Pair<Poller, PollerStatus>> status();
 }
+

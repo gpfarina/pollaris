@@ -19,7 +19,7 @@ import com.pollaris.fs.S3Fs;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class TestS3PollableFs {
+class S3PollableFsTest {
 
     @RegisterExtension
     static final S3MockExtension S3_MOCK = S3MockExtension.builder()
