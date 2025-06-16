@@ -9,7 +9,7 @@ import java.util.concurrent.TimeUnit;
  * This scheduler spaws one thread for every Runnable command executed.
  * This might not be very efficient in terms of memory and cpu usage.
  */
-public class RealScheduler implements Scheduler {
+public class RealScheduler implements Scheduler{
     private final ScheduledExecutorService executor;
     private int pollSize;
     public RealScheduler(int pollSize){

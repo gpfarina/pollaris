@@ -25,7 +25,6 @@ import com.pollaris.config.PollerConfigEntry;
 import com.pollaris.fs.LocalFs;
 import com.pollaris.fs.PollableFs;
 import com.pollaris.fs.S3Fs;
-import com.pollaris.poller.IdGen;
 import com.pollaris.poller.MultipleLocationsPoller;
 import com.pollaris.poller.Poller;
 import com.pollaris.poller.PollerFactory;
@@ -41,7 +40,7 @@ public class MultiThreadedPollerManager implements PollerManager {
     private final Scheduler scheduler; // This calls the polling system at the right frequency
     private final Map<PollerId, Pair<Poller, Integer>> pollerIdToPollerWithFrequency; // Needed to quickly retrieve the frequency of every poller
     private final Map<PollerId, Map<Path, Action>> pollerIdToLocationsWithAction; // Needed to quickly retrieve the the actions for every poller
-    private final Map<PollerId, ScheduledFuture> futures; // we use to store handles to the threads
+    private final Map<PollerId, ScheduledFuture<?>> futures; // we use to store handles to the threads
     private final Map<PollerId, PollerStatus> statusPollers;
 
     public MultiThreadedPollerManager(Config configuration, Scheduler scheduler, PollerFactory pollerFactory){
@@ -92,7 +91,7 @@ public class MultiThreadedPollerManager implements PollerManager {
     public void startPollers(){
         for(Map.Entry<PollerId, Pair<Poller, Integer>> entryPoller: pollerIdToPollerWithFrequency.entrySet()){
             Runnable execPoller = mkLambdaRunnableWrapper(entryPoller.getValue().getFirst());
-            ScheduledFuture handle = scheduler.scheduleAtFixedRate(
+            ScheduledFuture<?> handle = scheduler.scheduleAtFixedRate(
             execPoller, 
             0, 
             entryPoller.getValue().getSecond(), 
@@ -105,7 +104,7 @@ public class MultiThreadedPollerManager implements PollerManager {
 
     @Override
     public void killPollers() {
-        for (Map.Entry<PollerId, ScheduledFuture> entry : this.futures.entrySet()) {
+        for (Map.Entry<PollerId, ScheduledFuture<?>> entry : this.futures.entrySet()) {
             entry.getValue().cancel(true); // gracelessly kills the thread
             statusPollers.put(entry.getKey(), PollerStatus.REGISTERED);
         }
@@ -117,7 +116,7 @@ public class MultiThreadedPollerManager implements PollerManager {
         Pair<Poller, Integer> pollerAndFreq = pollerIdToPollerWithFrequency.get(id);
         if(status == PollerStatus.REGISTERED && pollerAndFreq!=null){
             Runnable execPoller = mkLambdaRunnableWrapper(pollerAndFreq.getFirst());
-            ScheduledFuture handle = scheduler.scheduleAtFixedRate(
+            ScheduledFuture<?> handle = scheduler.scheduleAtFixedRate(
             execPoller, 
             0, 
             pollerAndFreq.getSecond(), 
@@ -135,7 +134,7 @@ public class MultiThreadedPollerManager implements PollerManager {
     @Override
     public void killPoller(PollerId id) {
         PollerStatus status = statusPollers.get(id);
-        ScheduledFuture future = futures.get(id);
+        ScheduledFuture<?> future = futures.get(id);
         if(status==PollerStatus.STARTED && future!=null){
             futures.get(id).cancel(true);
             statusPollers.put(id, PollerStatus.REGISTERED);

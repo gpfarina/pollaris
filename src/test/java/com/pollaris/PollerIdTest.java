@@ -20,6 +20,7 @@ public class PollerIdTest {
         assertFalse(id.equals(null), "An object should not be equal to null");
     }
 
+    @SuppressWarnings("unlikely-arg-type")
     @Test
     public void testEquals_DifferentClass() {
         PollerId id = PollerId.fresh();

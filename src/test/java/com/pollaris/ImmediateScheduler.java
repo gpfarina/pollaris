@@ -1,10 +1,8 @@
 package com.pollaris;
 
 import java.util.concurrent.Delayed;
-import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
-import java.util.concurrent.TimeoutException;
 
 import com.pollaris.scheduling.Scheduler;
 
@@ -12,7 +10,7 @@ public class ImmediateScheduler implements Scheduler{
 
     // just run the command right away and return a dummy ScheduledFuture
     @Override
-    public ScheduledFuture scheduleAtFixedRate(Runnable command, long initialDelay, long period, TimeUnit unit) {
+    public ScheduledFuture<?> scheduleAtFixedRate(Runnable command, long initialDelay, long period, TimeUnit unit) {
         command.run();
         return new LocalScheduledFuture();
     }
@@ -40,13 +38,12 @@ public class ImmediateScheduler implements Scheduler{
         }
 
         @Override
-        public Object get() throws InterruptedException, ExecutionException {
+        public Object get() {
             throw new UnsupportedOperationException("Unimplemented method 'get'");
         }
 
         @Override
-        public Object get(long timeout, TimeUnit unit)
-                throws InterruptedException, ExecutionException, TimeoutException {
+        public Object get(long timeout, TimeUnit unit) {
             throw new UnsupportedOperationException("Unimplemented method 'get'");
         }
 
