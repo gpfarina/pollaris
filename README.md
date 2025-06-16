@@ -31,7 +31,8 @@ mvn test
 ```
 # Running
  ## Configure your config.yaml with poller settings
- * find an example in  src/main/java/com/pollaris/driver/configuration.yaml
+ * find an example in  src/main/java/com/pollaris/driver/configuration.yaml or in src/main/java/com/pollaris/driver configuration2.yaml
+ * path should be absolute paths not relative
  ## Configure (if needed) credentials and aws region
  ```
     export AWS_REGION=your_region

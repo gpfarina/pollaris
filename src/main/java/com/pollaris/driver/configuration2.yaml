@@ -1,0 +1,14 @@
+pollers:
+  - name: "localPoller"
+    frequencyMs: 5000
+    backend:
+      type: LOCAL
+    actions:
+        "/home/gian-pietro/test1": LOGEVENT
+        "~/test2": LOGEVENT
+  - name: "localPoller2"
+    frequencyMs: 1000
+    backend:
+      type: LOCAL
+    actions:
+        "~/test3": LOGEVENT
