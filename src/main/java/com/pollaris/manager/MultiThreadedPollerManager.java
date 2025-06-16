@@ -3,6 +3,7 @@ package com.pollaris.manager;
 import com.pollaris.event.Event;
 import com.pollaris.utils.Pair;
 
+import software.amazon.awssdk.core.exception.SdkClientException;
 import software.amazon.awssdk.services.s3.S3Client;
 
 import java.nio.file.Path;
@@ -221,8 +222,19 @@ public class MultiThreadedPollerManager implements PollerManager {
             return new LocalFs();
         }
         else {
-            S3Client s3Client = S3Client.builder().build();
-            return new S3Fs(s3Client, backend.bucket);
+            S3Client s3Client;
+            try{ 
+                s3Client = S3Client.builder().build();
+                return new S3Fs(s3Client, backend.bucket);
+            } catch(SdkClientException e){
+                System.out.println(e.toString());
+                System.out.println("**********");
+                System.out.println("Please make sure that AWS credentials and region are setup as environment variables in the terminal where Pollaris is executed.");
+                System.out.println("More information in the README file.");
+                System.out.println("**********");
+                System.exit(-1);
+            }
+            return null;
         }
     }
 }

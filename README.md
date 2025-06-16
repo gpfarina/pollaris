@@ -39,4 +39,4 @@ mvn test
     export AWS_SECRET_ACCESS_KEY=your_access_key
  ```
  ## Run the application (in the same terminal where you exported the environment variables):
- * java -jar target/pollaris.jar path/to/config.yaml
+ * java -jar target/pollaris-1.0-SNAPSHOT.jar path/to/config.yaml
