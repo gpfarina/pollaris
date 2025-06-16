@@ -6,6 +6,9 @@ import com.pollaris.poller.PollerId;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * Generic test class to test equality and hash properties of PollerId class
+ */
 public class PollerIdTest {
 
     @Test

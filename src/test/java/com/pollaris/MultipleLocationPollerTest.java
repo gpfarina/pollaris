@@ -46,6 +46,9 @@ public class MultipleLocationPollerTest {
     }
 
 
+    /**
+     * Test add and remove location works.
+     */
     @Test
     public void testAddRemoveLocation(){
         Path path1 = Paths.get("location1");
@@ -60,6 +63,10 @@ public class MultipleLocationPollerTest {
         Assert.assertEquals(new HashSet<>(poller.locations()), new HashSet<Path>(paths));
     }
 
+
+
+    // PRIVATE REGION
+    // dummy class to mock a PollableFs
      class MockedPollableFs implements PollableFs{
         
         Map<Path, Instant> oldAccessTime;
@@ -73,6 +80,7 @@ public class MultipleLocationPollerTest {
             }
         }
 
+        // not needed for the test
         @Override
         public List<FileEntry> listEntries(String locationToEvents) {
             throw new UnsupportedOperationException("Unimplemented method 'listEntries', not needed for this test");

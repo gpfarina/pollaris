@@ -42,6 +42,9 @@ class S3PollableFsTest {
         s3Fs = new S3Fs(s3Client, "test-bucket");
     }
 
+    /**
+     * Test the s3 pollable fs returns all the objects in a prefix.
+     */
     @Test
     void testListEntries_returnsAllObjectsWithPrefix() {
         // Arrange: upload some files

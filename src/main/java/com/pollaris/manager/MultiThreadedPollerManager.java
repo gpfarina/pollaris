@@ -56,8 +56,6 @@ public class MultiThreadedPollerManager implements PollerManager {
             Poller poller = pollerFactory.create(fs, locations); 
             PollerId pollerId = poller.getId();
             statusPollers.put(pollerId, PollerStatus.REGISTERED);
-            
-            new MultipleLocationsPoller(fs, locations, pollerId); // this needs to be injected, (use maybe a factory?)
             pollerIdToPollerWithFrequency.put(pollerId, new Pair<Poller,Integer>(poller, pollerEntry.frequencyMs));
             pollerIdToLocationsWithAction.put(pollerId, parseActionValue(pollerEntry.actions));
         }
@@ -102,6 +100,9 @@ public class MultiThreadedPollerManager implements PollerManager {
         }
     }
 
+    /**
+    * Deregister and kill all the pollers.
+    */
     @Override
     public void killPollers() {
         for (Map.Entry<PollerId, ScheduledFuture<?>> entry : this.futures.entrySet()) {
@@ -110,6 +111,10 @@ public class MultiThreadedPollerManager implements PollerManager {
         }
     }
 
+    /**
+     * Starts a specific poller
+     * @param id the PollerId to start
+     */
     @Override
     public void startPoller(PollerId id){
         PollerStatus status = statusPollers.get(id);
@@ -131,6 +136,10 @@ public class MultiThreadedPollerManager implements PollerManager {
 
     }
 
+    /**
+     * Kills a specific poller
+     * @param id the PollerId to kill
+     */
     @Override
     public void killPoller(PollerId id) {
         PollerStatus status = statusPollers.get(id);
@@ -144,15 +153,24 @@ public class MultiThreadedPollerManager implements PollerManager {
         }
     }
 
+    /**
+    * Registers a specific poller
+    * @param poller the poller to register
+    * @param frequency the frequency (in ms) of the poller
+    * @param actions a map from Path to Action, denoting the actions of the poller for every location it monitors
+    */
     @Override
     public void registerPoller(Poller poller, Integer frequency, Map<Path, Action> actions) {
         pollerIdToPollerWithFrequency.put(poller.getId(), new Pair<Poller, Integer>(poller, frequency));
         pollerIdToLocationsWithAction.put(poller.getId(), actions);
         statusPollers.put(poller.getId(), PollerStatus.REGISTERED);
     }
-
+    /**
+     * Removes a poller and deregisters it. But first it kills it if necessary. 
+     */
     @Override
     public void removePoller(Poller poller) {
+        this.killPoller(poller.getId());
         pollerIdToLocationsWithAction.remove(poller.getId());
         pollerIdToPollerWithFrequency.remove(poller.getId());
         futures.remove(poller.getId());

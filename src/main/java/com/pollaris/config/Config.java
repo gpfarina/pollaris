@@ -22,6 +22,12 @@ public class Config {
         return pollers;
     }
     private Config(){}
+
+    /**
+     * Smart constructor
+     * @param entries
+     * @return a Config instance
+     */
     public static Config mkOfEntries(List<PollerConfigEntry> entries){
         Config config = new Config();
         config.pollers=entries;

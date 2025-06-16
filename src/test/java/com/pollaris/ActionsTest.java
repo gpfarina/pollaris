@@ -18,6 +18,10 @@ import com.pollaris.event.Event;
 
 public class ActionsTest {
     final PrintStream standardOut = System.out;
+
+    /**
+     * Test log action by caputring the standard output.
+     * */ 
     @Test
     public void testLog(){
         final ByteArrayOutputStream outputStreamCaptor = new ByteArrayOutputStream();
@@ -30,11 +34,20 @@ public class ActionsTest {
 
     }
 
+    /**
+     * Test no op action.
+     * */ 
     @Test
     public void testNop(){
         assertEquals(new NoOpAction().execute(mkEvent()), Result.SUCCESS);
     }
 
+
+    // PRIVATE REGION
+    /**
+     * Constructor for dummy event.
+     * @return a dummy event
+    */
     private static Event mkEvent(){
         return new Event() {
 

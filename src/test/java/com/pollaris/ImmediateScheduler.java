@@ -20,6 +20,9 @@ public class ImmediateScheduler implements Scheduler{
     }
     
 
+    /*
+    * Dummy implementation of a ScheduledFuture
+    **/ 
     class LocalScheduledFuture implements ScheduledFuture<Object>{
 
         @Override

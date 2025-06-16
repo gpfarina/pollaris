@@ -3,6 +3,8 @@ package com.pollaris;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.io.File;
+import java.io.IOException;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -21,8 +23,14 @@ import com.pollaris.poller.PollerFactory;
 import com.pollaris.utils.Pair;
 
 public class MultiThreadedPollerManagerTest {
+
+    /**
+     * Test that starting all the pollers sequentially works, test also the killing of all the pollers.
+     * @throws IOException
+     * @throws URISyntaxException
+     */
     @Test
-    public void testStartKillPollers() throws Exception{
+    public void testStartKillPollers() throws IOException, URISyntaxException{
         URL resourceUrl = getClass().getResource("/configTests/testPollerManager.yaml");
         Path resourcePath = Path.of(resourceUrl.toURI());
         Config config = Config.parse(new File(resourcePath.toString()));
@@ -37,7 +45,10 @@ public class MultiThreadedPollerManagerTest {
             assertEquals(entry.getSecond(), PollerStatus.REGISTERED);
         }
     }
-   
+
+    /**
+     * Test that adding a poller registers it correctly.
+     */
     @Test
     public void testAddPoller(){
         PollerFactory pollerFactory = new PollerFactory();
@@ -46,6 +57,10 @@ public class MultiThreadedPollerManagerTest {
         manager.registerPoller(pollerFactory.create(new LocalFs(), List.of(Paths.get("location"))), 1000, Map.of());
         assertEquals(manager.pollers().size(), 1);
     }
+
+    /**
+     * Test that removing a poller deregisters it correctly.
+     */
     @Test
     public void testRemovePoller(){
         PollerFactory pollerFactory = new PollerFactory();
@@ -57,6 +72,9 @@ public class MultiThreadedPollerManagerTest {
         assertEquals(manager.pollers().size(), 0);
     }
 
+    /*
+    * Test that starting and killing a process works correctly.
+    **/ 
     @Test
     public void testStartKillPoller(){
         PollerFactory pollerFactory = new PollerFactory();
